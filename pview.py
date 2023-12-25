@@ -1,4 +1,6 @@
 # A paraview script to load openfoam data and save the output data as csv at a plane.
+# Run this script by creating a view.foam file in OpenFOAM case directory and run paraview by "pvpython pview.py". The script will output all quantities in CSV file.
+
 from paraview.simple import *
 
 viewfoam = OpenFOAMReader(FileName='view.foam')
