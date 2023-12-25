@@ -14,7 +14,6 @@ sliceFilter.SliceType.Normal = [0.0, 1.0, 0.0]
 animationScene = GetAnimationScene()
 
 for index, timeStep in enumerate(animationScene.TimeKeeper.TimestepValues):
-    # Update the time step
     animationScene.AnimationTime = timeStep
     UpdatePipeline(timeStep, sliceFilter)
     filename = f'sliced_data_timestep_{index}.csv'
