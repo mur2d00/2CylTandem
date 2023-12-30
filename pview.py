@@ -43,6 +43,7 @@ sliceFilter.SliceType.Origin = [0.0, 0.0, 0.0]
 sliceFilter.SliceType.Normal = [0.0, 1.0, 0.0]
 animationScene = pvs.GetAnimationScene()
 
+
 # Loop through each time step
 for index, timeStep in enumerate(animationScene.TimeKeeper.TimestepValues):
     animationScene.AnimationTime = timeStep
