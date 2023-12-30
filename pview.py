@@ -22,13 +22,15 @@ gradient2 = pvs.Gradient(Input=gradient1)
 gradient2.ScalarArray = ['POINTS', 'Ub']
 gradient2.UpdatePipeline()
 # calculate s of sediment phase
-gradS1 = pvs.inputs[0].PointData['gradient1']
+programmableFilter1 = pvs.ProgrammableFilter(registrationName='ProgrammableFilter1', Input=gradient2)
+programmableFilter1.Script = """gradS1 = inputs[0].PointData['gradient1']
 S_sediment = (gradS1 + np.transpose(gradS1)) / 2
-pvs.output.PointData.append(S_sediment, 'Ss')
+output.PointData.append(S_sediment, 'Ss')"""
 # calculate S of fluid phase
-gradS2 = pvs.inputs[0].PointData['gradient2']
+programmableFilter2 = pvs.ProgrammableFilter(registrationName='ProgrammableFilter2', Input=programmableFilter1)
+programmableFilter2.Script = """gradS2 = inputs[0].PointData['gradient2']
 S_fluid = (gradS2 + np.transpose(gradS2)) / 2
-pvs.output.PointData.append(S_fluid, 'Sf')
+output.PointData.append(S_fluid, 'Sf')"""
 # create a box around 2 cylinders
 clipFilter = pvs.Clip(registrationName='Clip1', Input=gradient2)
 clipFilter.ClipType = 'Box'
@@ -41,7 +43,7 @@ sliceFilter.SliceType.Origin = [0.0, 0.0, 0.0]
 sliceFilter.SliceType.Normal = [0.0, 1.0, 0.0]
 animationScene = pvs.GetAnimationScene()
 
-# Loop through each time step to save outputs
+# Loop through each time step
 for index, timeStep in enumerate(animationScene.TimeKeeper.TimestepValues):
     animationScene.AnimationTime = timeStep
     pvs.UpdatePipeline(timeStep, sliceFilter)
