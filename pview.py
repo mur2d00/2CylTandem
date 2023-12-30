@@ -21,12 +21,12 @@ gradient1.UpdatePipeline()
 gradient2 = pvs.Gradient(Input=gradient1)
 gradient2.ScalarArray = ['POINTS', 'Ub']
 gradient2.UpdatePipeline()
-# calculate s of sediment phase
+# calculate symmetric part of velocity gradient tensor of sediment phase
 programmableFilter1 = pvs.ProgrammableFilter(registrationName='ProgrammableFilter1', Input=gradient2)
 programmableFilter1.Script = """gradS1 = inputs[0].PointData['gradient1']
 S_sediment = (gradS1 + np.transpose(gradS1)) / 2
 output.PointData.append(S_sediment, 'Ss')"""
-# calculate S of fluid phase
+# calculate symmetric part of velocity gradient tensor of fluid phase
 programmableFilter2 = pvs.ProgrammableFilter(registrationName='ProgrammableFilter2', Input=programmableFilter1)
 programmableFilter2.Script = """gradS2 = inputs[0].PointData['gradient2']
 S_fluid = (gradS2 + np.transpose(gradS2)) / 2
