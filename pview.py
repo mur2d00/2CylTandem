@@ -32,7 +32,7 @@ programmableFilter2.Script = """gradS2 = inputs[0].PointData['gradient2']
 S_fluid = (gradS2 + np.transpose(gradS2)) / 2
 output.PointData.append(S_fluid, 'Sf')"""
 # create a box around 2 cylinders
-clipFilter = pvs.Clip(registrationName='Clip1', Input=gradient2)
+clipFilter = pvs.Clip(registrationName='Clip1', Input=programmableFilter2)
 clipFilter.ClipType = 'Box'
 clipFilter.ClipType.Position = [-0.6, -0.3, -0.1]
 clipFilter.ClipType.Length = [1.2, 0.6, 0.25]
@@ -42,7 +42,6 @@ sliceFilter.SliceType = 'Plane'
 sliceFilter.SliceType.Origin = [0.0, 0.0, 0.0]
 sliceFilter.SliceType.Normal = [0.0, 1.0, 0.0]
 animationScene = pvs.GetAnimationScene()
-
 
 # Loop through each time step
 for index, timeStep in enumerate(animationScene.TimeKeeper.TimestepValues):
